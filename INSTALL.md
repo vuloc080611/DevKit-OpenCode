@@ -1,21 +1,79 @@
 # Hướng Dẫn Cài Đặt `devkit-opencode`
 
-Tài liệu này hướng dẫn chi tiết cách cài đặt **24 OpenCode Skills**, file quy tắc [AGENTS.md](AGENTS.md) và file cấu hình mẫu [config/opencode.jsonc.example](config/opencode.jsonc.example) vào OpenCode.
+Tài liệu này hướng dẫn chi tiết cách cài đặt **24 OpenCode Skills**, **8 Custom Slash Commands** (`commands/`), file quy tắc [AGENTS.md](AGENTS.md) và file cấu hình mẫu [config/opencode.jsonc.example](config/opencode.jsonc.example) vào OpenCode.
 
 ---
 
 ## Yêu Cầu Trước Khi Cài Đặt
 
 - Đã cài đặt **OpenCode** (`opencode --version`).
-- Có sẵn Git (nếu clone repository) hoặc tải source code về máy.
+- Có sẵn Git (hoặc Node.js `npx` nếu dùng `skills` CLI).
 
 ---
 
-## Cách 1: Cài Đặt Global (Áp Dụng Cho Mọi Dự Án)
+## Cách 1: Cài Tự Động Bằng Script (Khuyên Dùng)
 
-OpenCode tự động quét các skill nằm tại thư mục global:
-- **Linux / macOS:** `~/.config/opencode/skills/`
-- **Windows:** `%USERPROFILE%\.config\opencode\skills\` (tức `C:\Users\<TênUser>\.config\opencode\skills\`)
+Script cài đặt sẽ tự chép `skills/` + `commands/` và **tự động backup** (`*.bak.<timestamp>`) nếu máy bạn đã có sẵn `AGENTS.md` hoặc `opencode.jsonc`.
+
+### Windows (PowerShell)
+
+```powershell
+git clone https://github.com/vuloc080611/DevKit-OpenCode.git
+Set-Location DevKit-OpenCode
+
+# Cài toàn cục (~/.config/opencode) đầy đủ 24 skills + 8 commands + config
+powershell -ExecutionPolicy Bypass -File .\scripts\install.ps1
+
+# Hoặc chỉ cài 9 skill cốt lõi (không ghi đè config sẵn có)
+powershell -ExecutionPolicy Bypass -File .\scripts\install.ps1 -CoreOnly -SkipConfig
+
+# Hoặc cài riêng vào thư mục dự án hiện tại (.opencode/)
+powershell -ExecutionPolicy Bypass -File .\scripts\install.ps1 -Scope Project -ProjectDir "D:\path\to\your-project"
+```
+
+### Linux / macOS (Bash)
+
+```bash
+git clone https://github.com/vuloc080611/DevKit-OpenCode.git
+cd DevKit-OpenCode
+chmod +x scripts/install.sh
+
+# Cài toàn cục (~/.config/opencode) đầy đủ 24 skills + 8 commands + config
+./scripts/install.sh
+
+# Hoặc chỉ cài 9 skill cốt lõi (bỏ qua config)
+./scripts/install.sh --core-only --skip-config
+
+# Hoặc cài riêng vào một dự án (.opencode/)
+./scripts/install.sh --project /path/to/your-project
+```
+
+---
+
+## Cách 2: Cài Nhanh Qua `skills` CLI
+
+Nếu bạn đã cài Node.js, có thể cài trực tiếp bộ skill từ GitHub mà không cần clone:
+
+```bash
+# Xem danh sách skills có trong repo
+npx skills add vuloc080611/DevKit-OpenCode --list
+
+# Cài toàn cục cho OpenCode
+npx skills add vuloc080611/DevKit-OpenCode -a opencode -g
+
+# Hoặc cài chọn lọc từng skill vào dự án hiện tại
+npx skills add vuloc080611/DevKit-OpenCode --skill grill-me --skill systematic-debugging -a opencode
+```
+
+*(Lưu ý: `npx skills add` chỉ cài thư mục `skills/`. Nếu muốn dùng thêm slash commands `/grill`, `/debug`, `/verify`... hãy copy thêm `commands/*.md` theo Cách 3.)*
+
+---
+
+## Cách 3: Cài Thủ Công (Global Hoặc Project-Local)
+
+OpenCode tự động quét các skill và commands nằm tại thư mục global:
+- **Linux / macOS:** `~/.config/opencode/skills/` và `~/.config/opencode/commands/`
+- **Windows:** `%USERPROFILE%\.config\opencode\skills\` và `%USERPROFILE%\.config\opencode\commands\`
 
 > [!IMPORTANT]
 > Trên cả Linux/macOS lẫn Windows, OpenCode dùng thư mục `.config/opencode/`, **không** dùng `~/.opencode/skills/` hay `%APPDATA%\opencode\`.
@@ -28,10 +86,11 @@ git clone https://github.com/vuloc080611/DevKit-OpenCode.git
 cd DevKit-OpenCode
 
 # 2. Tạo thư mục cấu hình OpenCode (nếu chưa có)
-mkdir -p ~/.config/opencode/skills
+mkdir -p ~/.config/opencode/skills ~/.config/opencode/commands
 
-# 3. Copy toàn bộ 24 skills (hoặc dùng ln -s để tự đồng bộ khi git pull)
+# 3. Copy toàn bộ 24 skills & 8 slash commands
 cp -r skills/* ~/.config/opencode/skills/
+cp commands/*.md ~/.config/opencode/commands/
 
 # 4. Copy AGENTS.md và file cấu hình mẫu (kiểm tra trước nếu bạn đã có file riêng!)
 cp AGENTS.md ~/.config/opencode/AGENTS.md
@@ -43,6 +102,9 @@ cp config/opencode.jsonc.example ~/.config/opencode/opencode.jsonc
 ```bash
 for d in "$(pwd)"/skills/*; do
   ln -sfn "$d" ~/.config/opencode/skills/"$(basename "$d")"
+done
+for f in "$(pwd)"/commands/*.md; do
+  ln -sfn "$f" ~/.config/opencode/commands/"$(basename "$f")"
 done
 ```
 
@@ -56,28 +118,27 @@ Set-Location DevKit-OpenCode
 # 2. Tạo thư mục global OpenCode
 $openCodeDir = Join-Path $env:USERPROFILE ".config\opencode"
 $skillsDir = Join-Path $openCodeDir "skills"
-New-Item -ItemType Directory -Force $skillsDir | Out-Null
+$commandsDir = Join-Path $openCodeDir "commands"
+New-Item -ItemType Directory -Force $skillsDir, $commandsDir | Out-Null
 
-# 3. Copy toàn bộ 24 skills
+# 3. Copy toàn bộ 24 skills & 8 commands
 Copy-Item -Recurse -Force ".\skills\*" $skillsDir
+Copy-Item -Force ".\commands\*.md" $commandsDir
 
 # 4. Copy AGENTS.md và config mẫu (cẩn thận nếu bạn đã có file cũ cần giữ lại)
 Copy-Item -Force ".\AGENTS.md" (Join-Path $openCodeDir "AGENTS.md")
 Copy-Item -Force ".\config\opencode.jsonc.example" (Join-Path $openCodeDir "opencode.jsonc")
 ```
 
----
+### Cài Riêng Cho Từng Dự Án (Project-Local)
 
-## Cách 2: Cài Đặt Theo Từng Dự Án (Project-Local)
-
-Phù hợp khi bạn muốn chia sẻ chung bộ skills với cả team trong repository của dự án.
-
-OpenCode tự động tìm skill trong `.opencode/skills/` và đọc `AGENTS.md` + `opencode.jsonc` ở thư mục gốc repo:
+OpenCode tự động tìm skill và command trong `.opencode/skills/`, `.opencode/commands/` cùng `AGENTS.md` và `opencode.jsonc` ở thư mục gốc repo:
 
 ```bash
 # Chạy tại thư mục gốc dự án của bạn
-mkdir -p .opencode/skills
+mkdir -p .opencode/skills .opencode/commands
 cp -r /path/to/DevKit-OpenCode/skills/* .opencode/skills/
+cp /path/to/DevKit-OpenCode/commands/*.md .opencode/commands/
 cp /path/to/DevKit-OpenCode/AGENTS.md ./AGENTS.md
 cp /path/to/DevKit-OpenCode/config/opencode.jsonc.example ./opencode.jsonc
 ```
@@ -86,7 +147,7 @@ cp /path/to/DevKit-OpenCode/config/opencode.jsonc.example ./opencode.jsonc
 
 ---
 
-## Cách 3: Cài Chọn Lọc Theo Nhóm Ưu Tiên
+## Cài Chọn Lọc Theo Nhóm Ưu Tiên (Thủ Công)
 
 Nếu bạn chỉ muốn bắt đầu với bộ kỷ luật cốt lõi để giữ context gọn:
 

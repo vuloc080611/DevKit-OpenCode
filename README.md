@@ -92,13 +92,43 @@ flowchart LR
 
 ---
 
+## Custom Slash Commands (`commands/`)
+
+Ngoài khả năng tự chọn skill theo ngữ cảnh, bộ kit kèm sẵn **8 slash commands** để kích hoạt tức thì trong OpenCode TUI:
+
+| Lệnh | Agent | Skill tương ứng | Mục đích |
+|---|---|---|---|
+| `/grill <ý tưởng>` | `plan` | [grill-me](skills/grill-me/SKILL.md) | Hỏi rõ yêu cầu, edge case trước khi code (khóa sửa file) |
+| `/plan <tính năng>` | `plan` | [project-planner](skills/project-planner/SKILL.md) | Chia task có thứ tự + verification step |
+| `/tdd <yêu cầu>` | `build` | [tdd-workflow](skills/tdd-workflow/SKILL.md) | Triển khai theo Red-Green-Refactor |
+| `/debug <lỗi>` | `build` | [systematic-debugging](skills/systematic-debugging/SKILL.md) | Điều tra nguyên nhân gốc theo 6 bước |
+| `/verify` | `build` | [verification-before-done](skills/verification-before-done/SKILL.md) | Chạy kiểm tra thực tế trước khi chốt hoàn thành |
+| `/review <phạm vi>` | `plan` | [code-review](skills/code-review/SKILL.md) | Review code đa chiều xếp hạng `[Blocker]` → `[Nit]` |
+| `/security <phạm vi>` | `plan` | [security-review](skills/security-review/SKILL.md) | Audit bảo mật OWASP / IDOR / injection / secrets |
+| `/commit` | `build` | [git-commit](skills/git-commit/SKILL.md) | Tạo Conventional Commit chuẩn từ `git diff` |
+
+---
+
 ## Cấu Trúc Repository
 
 ```text
-devkit-opencode/
+DevKit-OpenCode/
+├── .github/workflows/
+│   └── validate.yml              # CI tự động kiểm tra skills, commands, config & links
+├── commands/                     # 8 OpenCode custom slash commands (/grill, /debug, /verify...)
+├── config/
+│   └── opencode.jsonc.example
+├── docs/
+│   └── eval-prompts.md           # Bộ prompt kiểm thử trigger & ranh giới skill
+├── scripts/
+│   ├── install.ps1               # Script cài đặt Windows (có backup config cũ)
+│   ├── install.sh                # Script cài đặt Linux/macOS (có backup config cũ)
+│   └── validate.py               # Validator cấu trúc & Markdown links
 ├── skills/
 │   ├── grill-me/SKILL.md
-│   ├── spec-writer/SKILL.md
+│   ├── spec-writer/
+│   │   ├── SKILL.md
+│   │   └── references/prd-template.md
 │   ├── project-planner/SKILL.md
 │   ├── architecture-decision/SKILL.md
 │   ├── tdd-workflow/SKILL.md
@@ -106,7 +136,9 @@ devkit-opencode/
 │   ├── systematic-debugging/SKILL.md
 │   ├── verification-before-done/SKILL.md
 │   ├── code-review/SKILL.md
-│   ├── security-review/SKILL.md
+│   ├── security-review/
+│   │   ├── SKILL.md
+│   │   └── references/owasp-stack-checklists.md
 │   ├── performance-review/SKILL.md
 │   ├── refactor-safe/SKILL.md
 │   ├── code-simplification/SKILL.md
@@ -115,51 +147,53 @@ devkit-opencode/
 │   ├── readme-generator/SKILL.md
 │   ├── docs-writer/SKILL.md
 │   ├── api-designer/SKILL.md
-│   ├── database-schema/SKILL.md
+│   ├── database-schema/
+│   │   ├── SKILL.md
+│   │   └── references/postgres-migration-patterns.md
 │   ├── frontend-component/SKILL.md
 │   ├── docker-setup/SKILL.md
 │   ├── dsa-explainer/SKILL.md
 │   ├── leetcode-helper/SKILL.md
-│   └── assignment-helper/SKILL.md
-├── config/
-│   └── opencode.jsonc.example
+│   └── assignment-helper/
+│       ├── SKILL.md
+│       └── references/capstone-report-template.md
 ├── AGENTS.md
-├── README.md
 ├── INSTALL.md
-└── LICENSE
+├── LICENSE
+└── README.md
 ```
 
 ---
 
 ## Cài Đặt Nhanh
 
-Xem hướng dẫn đầy đủ cho Linux, macOS và Windows trong [INSTALL.md](INSTALL.md).
+Xem hướng dẫn đầy đủ cho Linux, macOS, Windows và tùy chọn cài theo dự án trong [INSTALL.md](INSTALL.md).
 
-### Cài toàn cục (dùng cho mọi dự án)
-
-- **Linux / macOS:**
-
-```bash
-git clone https://github.com/vuloc080611/DevKit-OpenCode.git
-mkdir -p ~/.config/opencode/skills
-cp -r DevKit-OpenCode/skills/* ~/.config/opencode/skills/
-cp DevKit-OpenCode/AGENTS.md ~/.config/opencode/AGENTS.md
-cp DevKit-OpenCode/config/opencode.jsonc.example ~/.config/opencode/opencode.jsonc
-```
+### Cài bằng Script (Khuyên Dùng — Tự Động Backup Config Cũ)
 
 - **Windows (PowerShell):**
 
 ```powershell
 git clone https://github.com/vuloc080611/DevKit-OpenCode.git
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.config\opencode\skills" | Out-Null
-Copy-Item -Recurse -Force "DevKit-OpenCode\skills\*" "$env:USERPROFILE\.config\opencode\skills\"
-Copy-Item -Force "DevKit-OpenCode\AGENTS.md" "$env:USERPROFILE\.config\opencode\AGENTS.md"
-Copy-Item -Force "DevKit-OpenCode\config\opencode.jsonc.example" "$env:USERPROFILE\.config\opencode\opencode.jsonc"
+Set-Location DevKit-OpenCode
+powershell -ExecutionPolicy Bypass -File .\scripts\install.ps1
 ```
 
-### Cài riêng cho một dự án
+- **Linux / macOS:**
 
-Copy thư mục `skills/` vào `.opencode/skills/`, đặt [AGENTS.md](AGENTS.md) ở thư mục gốc dự án và tham khảo [config/opencode.jsonc.example](config/opencode.jsonc.example) để tạo `./opencode.jsonc`.
+```bash
+git clone https://github.com/vuloc080611/DevKit-OpenCode.git
+cd DevKit-OpenCode
+chmod +x scripts/install.sh && ./scripts/install.sh
+```
+
+*(Thêm `-CoreOnly` / `--core-only` để chỉ cài 9 skill cốt lõi, hoặc `-Scope Project` / `--project` để cài riêng vào repo dự án.)*
+
+### Cài nhanh bằng `skills` CLI
+
+```bash
+npx skills add vuloc080611/DevKit-OpenCode -a opencode -g
+```
 
 ---
 

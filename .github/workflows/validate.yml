@@ -20,3 +20,9 @@ jobs:
 
       - name: Validate skills, commands, config, and links
         run: python scripts/validate.py
+
+      - name: Check bash installer syntax and dry-run
+        run: |
+          bash -n scripts/install.sh
+          bash scripts/install.sh --target /tmp/devkit-test
+          bash scripts/install.sh --target /tmp/devkit-core --core-only --skip-config --no-commands
