@@ -1,6 +1,8 @@
 # DevKit OpenCode (`devkit-opencode`)
 
-Bộ **24 OpenCode Skills** chuẩn [Agent Skills](https://opencode.ai/docs/skills/), thực tế và có kỷ luật dành cho lập trình viên từ **sinh viên đến mid-level**.
+**Tiếng Việt** | [English](README.en.md)
+
+Bộ **24 OpenCode Skills** và **8 Custom Slash Commands** chuẩn [Agent Skills](https://opencode.ai/docs/skills/), thực tế và có kỷ luật dành cho lập trình viên từ **sinh viên đến mid-level**.
 
 Thay vì chỉ gồm các công cụ đơn lẻ rời rạc, `devkit-opencode` bao quát **toàn bộ vòng đời phát triển phần mềm**: từ làm rõ yêu cầu, viết spec, lập kế hoạch, thực thi theo TDD/slice nhỏ, debug có hệ thống, verify trước khi báo xong, review đa chiều, cho tới hỗ trợ học tập và làm đồ án.
 
@@ -158,8 +160,11 @@ DevKit-OpenCode/
 │       ├── SKILL.md
 │       └── references/capstone-report-template.md
 ├── AGENTS.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
 ├── INSTALL.md
 ├── LICENSE
+├── README.en.md
 └── README.md
 ```
 
@@ -220,6 +225,8 @@ Nếu bạn không muốn bật/học hết 24 skill cùng lúc, hãy làm quen 
 
 ---
 
-## Giấy Phép
+## Đóng Góp & Giấy Phép
 
-Phát hành theo giấy phép [MIT License](LICENSE).
+- Đọc [CONTRIBUTING.md](CONTRIBUTING.md) nếu bạn muốn thêm/cải tiến skill hoặc slash command (nhớ chạy `python scripts/validate.py` và xem bộ test trigger tại [docs/eval-prompts.md](docs/eval-prompts.md)).
+- Xem lịch sử thay đổi tại [CHANGELOG.md](CHANGELOG.md).
+- Phát hành theo giấy phép [MIT License](LICENSE).

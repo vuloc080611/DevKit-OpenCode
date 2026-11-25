@@ -66,6 +66,8 @@ Load the matching skill whenever the user's request falls into its domain:
 
 ## 3. Repository Conventions
 
-- Skills live in `skills/<skill-name>/SKILL.md` (and can be installed to `.opencode/skills/` or `~/.config/opencode/skills/`).
+- Skills live in `skills/<skill-name>/SKILL.md` (with optional `references/` subdirectories) and can be installed to `.opencode/skills/` or `~/.config/opencode/skills/`.
+- Custom OpenCode slash commands live in `commands/*.md` (and can be installed to `.opencode/commands/` or `~/.config/opencode/commands/`).
 - Every `SKILL.md` follows the OpenCode Agent Skills format (`name`, `description` <= 1024 chars, `compatibility: opencode`, step-by-step workflow, anti-patterns, and input/output examples).
+- Run `python scripts/validate.py` before committing changes to skills, commands, configs, or documentation.
 - Never bypass failing checks, suppress linter/type errors without cause, or commit secrets/credentials.
