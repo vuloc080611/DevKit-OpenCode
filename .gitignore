@@ -1,0 +1,22 @@
+# OS & Editor artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Python cache (for scripts/validate.py)
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Node / temporary test installs
+node_modules/
+.opencode/
+opencode.jsonc
+.env
+.env.*
+!.env.example

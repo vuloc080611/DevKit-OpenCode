@@ -1,0 +1,16 @@
+# Auto-detect text files and normalize to LF in the repository
+* text=auto eol=lf
+
+# Windows scripts keep CRLF on checkout
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Shell, Markdown, YAML, JSON, Python strictly LF
+*.sh text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.jsonc text eol=lf
+*.py text eol=lf
