@@ -1,6 +1,6 @@
 ---
 name: code-simplification
-description: Reduce accidental complexity, deep nesting, redundant abstractions, duplicate logic, and over-engineering while keeping exact behavior and clarity intact. Use when code feels bloated, over-abstracted, deeply nested, or hard to read ("đơn giản hóa code", "bớt rườm rà", "remove over-engineering", "simplify").
+description: Reduce accidental complexity, deep nesting, redundant abstractions, duplicate logic, and over-engineering while keeping exact behavior and clarity intact. Use when code feels bloated, over-abstracted, deeply nested, or hard to read ("đơn giản hóa code", "bớt rườm rà", "remove over-engineering", "simplify"). For cross-module restructuring needing test safety nets first, use refactor-safe.
 license: MIT
 compatibility: opencode
 metadata:

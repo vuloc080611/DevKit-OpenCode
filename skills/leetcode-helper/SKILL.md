@@ -1,6 +1,6 @@
 ---
 name: leetcode-helper
-description: Coach users through LeetCode and competitive/interview coding problems with progressive hints, pattern recognition, brute-force-to-optimal derivation, complexity analysis, and edge-case checklists without spoiling the full solution unless explicitly requested. Use for algorithm problem solving ("giải bài LeetCode", "gợi ý bài này", "tối ưu O(n^2) sang O(n)", "coding interview problem").
+description: Coach users through specific LeetCode and interview coding problems with progressive hints, pattern recognition, brute-force-to-optimal derivation, TLE/WA debugging, and edge-case checklists without spoiling the full solution unless requested. Use for solving coding problems ("giải bài LeetCode", "gợi ý bài này", "tối ưu O(n^2) sang O(n)"). For general DSA concept lessons, use dsa-explainer.
 license: MIT
 compatibility: opencode
 metadata:

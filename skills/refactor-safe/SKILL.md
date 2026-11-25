@@ -1,6 +1,6 @@
 ---
 name: refactor-safe
-description: Restructure existing code cleanly without changing external behavior by building a characterization test safety net first, applying small mechanical steps, migrating callers explicitly, and verifying tests after every step. Use when refactoring legacy code, extracting modules, renaming contracts, or splitting monoliths ("refactor an toàn", "tách module", "clean up without breaking").
+description: Restructure existing code across functions or modules without changing external behavior by building characterization tests first, applying small mechanical steps, migrating callers explicitly, and verifying tests after every step. Use when extracting modules, renaming contracts, or splitting monoliths ("refactor an toàn", "tách module", "clean up without breaking"). For local simplification of nested logic, use code-simplification.
 license: MIT
 compatibility: opencode
 metadata:

@@ -1,6 +1,6 @@
 ---
 name: readme-generator
-description: Inspect the actual repository codebase, dependencies, scripts, env variables, and architecture to generate or update an accurate, well-structured README.md with verified commands and zero hallucinated instructions. Use when creating or refreshing README.md ("viết README", "cập nhật README", "tạo hướng dẫn dự án").
+description: Inspect the actual repository codebase, dependencies, scripts, env variables, and architecture to generate or update an accurate project README.md with verified commands and zero hallucinated instructions. Use strictly when creating or refreshing README.md ("viết README", "cập nhật README"). For docstrings, API guides, or ops runbooks, use docs-writer.
 license: MIT
 compatibility: opencode
 metadata:

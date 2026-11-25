@@ -1,6 +1,6 @@
 ---
 name: dsa-explainer
-description: Explain data structures and algorithms from first principles with crystal-clear intuition, step-by-step dry-run trace on a concrete example, time and space complexity proof, common pitfalls, and clean commented reference code. Use when learning or reviewing DSA topics ("giải thích thuật toán", "cấu trúc dữ liệu", "Big-O", "how does Dijkstra/BFS/DP work").
+description: Explain general data structures and algorithms from first principles with intuition, step-by-step dry-run trace, time and space complexity proof, common pitfalls, and clean reference code. Use when learning or reviewing DSA concepts ("giải thích thuật toán", "cấu trúc dữ liệu", "Big-O", "how does Dijkstra/BFS/DP work"). For progressive non-spoil coding problem hints, use leetcode-helper.
 license: MIT
 compatibility: opencode
 metadata:

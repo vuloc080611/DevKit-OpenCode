@@ -1,6 +1,6 @@
 ---
 name: security-review
-description: Audit code, APIs, configs, and dependencies for security vulnerabilities covering OWASP Top 10, authentication, authorization/IDOR, input validation, injection (SQLi, XSS, command, SSRF), secrets handling, and supply-chain risks. Use when reviewing auth, payments, file uploads, configs, or running a security audit ("bảo mật", "security audit", "OWASP check").
+description: Audit code, APIs, configs, and dependencies for security vulnerabilities covering OWASP Top 10, authentication, authorization/IDOR, input validation, injection (SQLi, XSS, command, SSRF), secrets handling, and supply-chain risks. Use when reviewing auth, payments, file uploads, configs, or running a security audit ("bảo mật", "security audit", "OWASP check"). For general PR quality review, use code-review.
 license: MIT
 compatibility: opencode
 metadata:

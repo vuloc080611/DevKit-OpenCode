@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Perform a thorough, multi-dimensional code review covering correctness, edge cases, security, performance, readability, and test quality with severity-ranked findings and concrete fixes. Use when reviewing pull requests, git diffs, or source files ("review code", "check PR", "đánh giá đoạn code này").
+description: Perform a thorough, multi-dimensional code review covering correctness, edge cases, maintainability, and test quality with severity-ranked findings and concrete fixes. Use when reviewing pull requests, git diffs, or source files ("review code", "check PR", "đánh giá đoạn code này"). For dedicated OWASP or auth security audits, prefer security-review.
 license: MIT
 compatibility: opencode
 metadata:

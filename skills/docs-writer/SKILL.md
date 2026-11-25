@@ -1,6 +1,6 @@
 ---
 name: docs-writer
-description: Write clear, accurate technical documentation including module/function docstrings, API guides, architecture overviews, and operational runbooks strictly grounded in inspected source code. Use when documenting modules, writing docstrings, or creating developer/ops guides ("viết docs", "viết docstring", "tài liệu kỹ thuật", "runbook").
+description: Write clear technical documentation including module/function docstrings, API guides, architecture overviews, and operational runbooks grounded strictly in inspected source code. Use when documenting modules, writing docstrings, or creating developer/ops guides ("viết docs", "viết docstring", "tài liệu kỹ thuật", "runbook"). For top-level README.md, use readme-generator; for ADRs, use architecture-decision.
 license: MIT
 compatibility: opencode
 metadata:
