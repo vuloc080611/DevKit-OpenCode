@@ -56,6 +56,10 @@ Identify exploitable security flaws across trust boundaries, data flows, configu
 - [ ] Transport & Browser: CORS, CSRF, Helmet/CSP headers, secure cookies verified
 - [ ] Files & Webhooks: MIME/magic-bytes + size limits + signature verification (`crypto.timingSafeEqual`)
 
+## Reference Files
+
+- For detailed stack-specific checks (JWT/Auth, SQL/NoSQL, SSRF, Uploads, Webhooks), see [owasp-stack-checklists.md](references/owasp-stack-checklists.md).
+
 ## Examples
 
 ### Example: Auditing a File Export & Webhook Handler

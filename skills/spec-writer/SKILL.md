@@ -77,6 +77,10 @@ Convert aligned requirements into a crisp, unambiguous specification that engine
 - None (or explicit items needing decision).
 ```
 
+## Reference Files
+
+- For the full copy-ready spec template with actors, contracts, and NFR prompts, see [prd-template.md](references/prd-template.md).
+
 ## Examples
 
 ### Example: Rate-Limited Coupon Redemption Spec

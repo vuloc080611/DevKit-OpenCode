@@ -83,3 +83,7 @@ CREATE INDEX idx_wallet_tx_wallet_created
 > - `CHECK (balance_minor >= 0)` guarantees non-negative balances even if an app bug slips through.
 > - `UNIQUE (wallet_id, idempotency_key)` prevents double-credit/double-debit on client or webhook retries.
 > - `ON DELETE RESTRICT` protects financial ledger history from accidental user deletion.
+
+## Reference Files
+
+- For zero-downtime PostgreSQL migrations (Expand-Backfill-Contract, `CONCURRENTLY`, `NOT VALID` constraints), see [postgres-migration-patterns.md](references/postgres-migration-patterns.md).

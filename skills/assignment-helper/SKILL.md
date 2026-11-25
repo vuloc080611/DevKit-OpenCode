@@ -65,3 +65,7 @@ Guide students to build solid, well-tested academic projects and clear technical
 >    - Chương 1: Tổng quan & Bài toán -> Chương 2: Phân tích yêu cầu & Use Case -> Chương 3: Thiết kế kiến trúc & ERD (`users`, `books`, `loans`) -> Chương 4: Cài đặt & Kiểm thử (đưa kết quả test thực tế transaction mượn/trả sách) -> Chương 5: Kết luận & Hướng phát triển.
 > 4. **3 Likely Defense Questions:**
 >    - *Làm sao tránh 2 sinh viên mượn cùng lúc quyển sách cuối cùng?* (Row lock / conditional `UPDATE books SET available = available - 1 WHERE id = $1 AND available > 0`).
+
+## Reference Files
+
+- For a complete university capstone report outline, real-test table, and defense Q&A checklist, see [capstone-report-template.md](references/capstone-report-template.md).
