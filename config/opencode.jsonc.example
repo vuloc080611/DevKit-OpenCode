@@ -1,0 +1,78 @@
+{
+  // OpenCode configuration example for devkit-opencode
+  // Copy to:
+  //   - Global:  ~/.config/opencode/opencode.jsonc
+  //   - Project: ./opencode.jsonc (or ./.opencode/opencode.jsonc)
+  "$schema": "https://opencode.ai/config.json",
+
+  // Replace with your preferred provider/model IDs (run `opencode models` to list available models)
+  // "model": "anthropic/claude-sonnet-4-5",
+  // "small_model": "anthropic/claude-haiku-4-5",
+
+  // Global / project instruction files loaded into OpenCode sessions
+  "instructions": [
+    "AGENTS.md"
+  ],
+
+  // Granular safety & skill permissions (last matching rule wins)
+  "permission": {
+    // Allow all devkit-opencode skills to load on demand; switch to "ask" if you want approval prompts
+    "skill": {
+      "*": "allow",
+      "grill-me": "allow",
+      "spec-writer": "allow",
+      "project-planner": "allow",
+      "architecture-decision": "allow",
+      "tdd-workflow": "allow",
+      "incremental-implementation": "allow",
+      "systematic-debugging": "allow",
+      "verification-before-done": "allow",
+      "code-review": "allow",
+      "security-review": "allow",
+      "performance-review": "allow",
+      "refactor-safe": "allow",
+      "code-simplification": "allow",
+      "git-commit": "allow",
+      "changelog-generator": "allow",
+      "readme-generator": "allow",
+      "docs-writer": "allow",
+      "api-designer": "allow",
+      "database-schema": "allow",
+      "frontend-component": "allow",
+      "docker-setup": "allow",
+      "dsa-explainer": "allow",
+      "leetcode-helper": "allow",
+      "assignment-helper": "allow"
+    },
+
+    // Safe read-only bash commands auto-allowed; mutating or risky commands require confirmation
+    "bash": {
+      "*": "ask",
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "git branch*": "allow",
+      "ls*": "allow",
+      "pwd": "allow"
+    },
+
+    // Ask before editing files outside trusted automation workflows, or set to "allow" per project
+    "edit": "ask",
+
+    // Prevent accidental access to directories outside the active repository
+    "external_directory": "ask",
+
+    // Allow fetching documentation pages when explicitly needed
+    "webfetch": "allow"
+  },
+
+  // Built-in agent tuning
+  "agent": {
+    // Keep the Plan agent strictly read-only for planning and reviews
+    "plan": {
+      "permission": {
+        "edit": "deny"
+      }
+    }
+  }
+}

@@ -1,0 +1,191 @@
+# DevKit OpenCode (`devkit-opencode`)
+
+Bộ **24 OpenCode Skills** chuẩn [Agent Skills](https://opencode.ai/docs/skills/), thực tế và có kỷ luật dành cho lập trình viên từ **sinh viên đến mid-level**.
+
+Thay vì chỉ gồm các công cụ đơn lẻ rời rạc, `devkit-opencode` bao quát **toàn bộ vòng đời phát triển phần mềm**: từ làm rõ yêu cầu, viết spec, lập kế hoạch, thực thi theo TDD/slice nhỏ, debug có hệ thống, verify trước khi báo xong, review đa chiều, cho tới hỗ trợ học tập và làm đồ án.
+
+---
+
+## Triết Lý Cốt Lõi
+
+1. **Rõ ràng trước khi code**: Yêu cầu mơ hồ thì hỏi đến cùng (`grill-me`), chốt hợp đồng bằng spec (`spec-writer`), chia task có bước kiểm chứng (`project-planner`).
+2. **Kỷ luật khi triển khai**: Test fail trước khi viết code (`tdd-workflow`), làm từng slice nhỏ giữ build luôn xanh (`incremental-implementation`).
+3. **Không đoán mò khi sửa lỗi**: Tái hiện → Thu thập log → Đặt 1 giả thuyết → Kiểm chứng → Sửa tận gốc (`systematic-debugging`).
+4. **Không báo "xong" khi thiếu bằng chứng**: Luôn chạy test, typecheck, build sau lần sửa cuối cùng trước khi kết luận (`verification-before-done`).
+5. **Một skill = Một việc rõ ràng**: Mỗi skill có `description` với trigger cụ thể, quy trình từng bước, danh sách anti-pattern (*Không được làm*) và ví dụ Input/Output thực tế.
+
+---
+
+## Luồng Phối Hợp Giữa Các Skill
+
+```mermaid
+flowchart LR
+    A["Ý tưởng / Yêu cầu mới"] --> B["grill-me<br/>Hỏi rõ edge case"]
+    B --> C["spec-writer<br/>Chốt PRD / Spec"]
+    C --> D["architecture-decision<br/>ADR khi chọn công nghệ"]
+    C --> E["project-planner<br/>Chia task + Verify step"]
+    E --> F["tdd-workflow /<br/>incremental-implementation"]
+    G["Lỗi / Bug / Crash"] --> H["systematic-debugging<br/>Reproduce -> Hypothesis -> Fix"]
+    F --> I["code-review / security-review /<br/>performance-review"]
+    H --> I
+    I --> J["verification-before-done<br/>Chạy kiểm chứng thực tế"]
+    J --> K["git-commit / changelog-generator /<br/>readme-generator / docs-writer"]
+```
+
+---
+
+## Danh Sách 24 Skills Đầy Đủ
+
+### A. Planning & Requirements (Trước khi code)
+
+| # | Skill | Nhiệm vụ chính | Khi nào kích hoạt |
+|---|---|---|---|
+| 1 | [grill-me](skills/grill-me/SKILL.md) | Hỏi liên tục làm rõ yêu cầu, ràng buộc, edge case, success criteria trước khi code | Yêu cầu mơ hồ, feature lớn, hoặc user muốn làm rõ kỹ trước khi viết code |
+| 2 | [spec-writer](skills/spec-writer/SKILL.md) | Chuyển yêu cầu đã thống nhất thành PRD / Feature Spec ngắn gọn, có Non-Goals và Acceptance Criteria | Cần đặc tả tính năng, user flow, data contract trước khi chia task |
+| 3 | [project-planner](skills/project-planner/SKILL.md) | Chia feature thành các task nhỏ theo thứ tự phụ thuộc kèm bước kiểm chứng cụ thể cho từng task | Cần lập implementation plan chi tiết trước khi code |
+| 4 | [architecture-decision](skills/architecture-decision/SKILL.md) | Viết ADR so sánh khách quan các phương án, trade-offs, chi phí vận hành và khả năng đảo ngược | Chọn database, queue, auth flow, kiến trúc hệ thống hoặc thư viện lớn |
+
+### B. Implementation Discipline (Kỷ luật viết code & sửa lỗi)
+
+| # | Skill | Nhiệm vụ chính | Khi nào kích hoạt |
+|---|---|---|---|
+| 5 | [tdd-workflow](skills/tdd-workflow/SKILL.md) | Bắt buộc chu trình Red-Green-Refactor: viết test fail trước → code tối thiểu để pass → refactor | Implement logic nghiệp vụ, parser, API handler hoặc fix bug kèm regression test |
+| 6 | [incremental-implementation](skills/incremental-implementation/SKILL.md) | Thực thi từng vertical slice nhỏ, kiểm tra xanh sau mỗi bước trước khi đi tiếp | Triển khai feature nhiều lớp (DB → API → UI) hoặc refactor nhiều file |
+| 7 | [systematic-debugging](skills/systematic-debugging/SKILL.md) | Debug khoa học: Reproduce → Đọc log/trace → 1 Hypothesis → Verify giả thuyết → Sửa tận gốc | Gặp bug, crash, flaky test, regression hoặc behavior bất thường |
+| 8 | [verification-before-done](skills/verification-before-done/SKILL.md) | Cổng kiểm tra cuối: bắt buộc chạy lại test/build/typecheck sau edit cuối cùng mới được báo xong | Trước khi kết luận hoàn thành, mở PR hoặc bàn giao code |
+
+### C. Code Quality & Review (Chất lượng, Bảo mật & Tối ưu)
+
+| # | Skill | Nhiệm vụ chính | Khi nào kích hoạt |
+|---|---|---|---|
+| 9 | [code-review](skills/code-review/SKILL.md) | Review đa chiều (Correctness, Edge Cases, Security, Performance, Readability, Tests) xếp hạng Blocker → Nit | Review diff, PR hoặc kiểm tra chất lượng module trước khi merge |
+| 10 | [security-review](skills/security-review/SKILL.md) | Kiểm tra OWASP Top 10, AuthN/AuthZ (IDOR/BOLA), SQLi, XSS, Command Injection, SSRF, secrets & dependency | Audit route nhạy cảm, thanh toán, upload file, webhook hoặc config bảo mật |
+| 11 | [performance-review](skills/performance-review/SKILL.md) | Đo lường trước rồi mới tối ưu: query N+1, index, memory leak, độ phức tạp thuật toán, bundle size | Endpoint chậm, CPU/RAM tăng cao, truy vấn nặng hoặc UI lag |
+| 12 | [refactor-safe](skills/refactor-safe/SKILL.md) | Tái cấu trúc code giữ nguyên 100% behavior dựa trên characterization test và từng bước nhỏ | Tách hàm/module lớn, dọn legacy code mà không được làm hỏng logic cũ |
+| 13 | [code-simplification](skills/code-simplification/SKILL.md) | Giảm độ phức tạp, lồng `if` sâu, abstraction thừa và over-engineering nhưng giữ nguyên an toàn | Code rối, nhiều boilerplate, nhiều tầng wrapper không cần thiết |
+
+### D. Daily Dev Tools (Công cụ hằng ngày)
+
+| # | Skill | Nhiệm vụ chính | Khi nào kích hoạt |
+|---|---|---|---|
+| 14 | [git-commit](skills/git-commit/SKILL.md) | Đọc `git diff --staged`, kiểm tra lộ secrets/tính nguyên tử và tạo Conventional Commit chuẩn | Chuẩn bị commit code hoặc tách commit từ working tree lộn xộn |
+| 15 | [changelog-generator](skills/changelog-generator/SKILL.md) | Tổng hợp release notes (Keep a Changelog) từ lịch sử `git log` / tag thực tế, lọc nhiễu và nhấn mạnh Breaking Changes | Ra bản release mới hoặc cập nhật `CHANGELOG.md` |
+| 16 | [readme-generator](skills/readme-generator/SKILL.md) | Quét codebase, scripts, env vars thực tế để viết/cập nhật `README.md` chính xác, không bịa lệnh | Tạo mới hoặc làm mới `README.md` cho repo |
+| 17 | [docs-writer](skills/docs-writer/SKILL.md) | Viết TSDoc/docstring giàu thông tin (contract, invariants, errors), hướng dẫn API và ops runbook | Viết tài liệu kỹ thuật, docstring chuẩn hoặc tài liệu vận hành |
+
+### E. Web & Backend (Thiết kế hệ thống Web/App)
+
+| # | Skill | Nhiệm vụ chính | Khi nào kích hoạt |
+|---|---|---|---|
+| 18 | [api-designer](skills/api-designer/SKILL.md) | Thiết kế REST/GraphQL API nhất quán: resource, status code, pagination, idempotency, error envelope | Thiết kế endpoint mới, OpenAPI spec hoặc chuẩn hóa API contract |
+| 19 | [database-schema](skills/database-schema/SKILL.md) | Thiết kế bảng, quan hệ, DB constraints, composite index theo query thực tế và migration an toàn (Expand-Contract) | Tạo schema SQL/Prisma/Drizzle, tối ưu index hoặc viết migration |
+| 20 | [frontend-component](skills/frontend-component/SKILL.md) | Xây dựng UI component sạch, accessible (keyboard, ARIA, focus), đủ loading/empty/error, không mang "AI slop" | Tạo hoặc cải tiến component React/Vue/Svelte/Tailwind |
+| 21 | [docker-setup](skills/docker-setup/SKILL.md) | Tạo multi-stage `Dockerfile` tối ưu cache, chạy non-root, `.dockerignore` và `compose.yaml` có healthcheck | Containerize ứng dụng hoặc dựng môi trường Docker local/production |
+
+### F. Student & Learning (Sinh viên & Tự học)
+
+| # | Skill | Nhiệm vụ chính | Khi nào kích hoạt |
+|---|---|---|---|
+| 22 | [dsa-explainer](skills/dsa-explainer/SKILL.md) | Giải thích cấu trúc dữ liệu & thuật toán từ bản chất: trực giác → chạy tay từng bước → chứng minh Big-O → code mẫu | Học thuật toán (BFS/DFS, Dijkstra, DP, Monotonic Stack, Segment Tree...) |
+| 23 | [leetcode-helper](skills/leetcode-helper/SKILL.md) | Huấn luyện giải bài thuật toán theo gợi ý từng nấc (không spoil ngay code đáp án trừ khi được yêu cầu) | Luyện LeetCode/interview, debug lỗi `WA`/`TLE` |
+| 24 | [assignment-helper](skills/assignment-helper/SKILL.md) | Hỗ trợ đồ án / bài tập lớn có trách nhiệm: phân tích rubric, kiến trúc, dàn ý báo cáo, chuẩn bị hỏi đáp bảo vệ | Làm đồ án môn học, đồ án tốt nghiệp hoặc viết báo cáo kỹ thuật |
+
+---
+
+## Cấu Trúc Repository
+
+```text
+devkit-opencode/
+├── skills/
+│   ├── grill-me/SKILL.md
+│   ├── spec-writer/SKILL.md
+│   ├── project-planner/SKILL.md
+│   ├── architecture-decision/SKILL.md
+│   ├── tdd-workflow/SKILL.md
+│   ├── incremental-implementation/SKILL.md
+│   ├── systematic-debugging/SKILL.md
+│   ├── verification-before-done/SKILL.md
+│   ├── code-review/SKILL.md
+│   ├── security-review/SKILL.md
+│   ├── performance-review/SKILL.md
+│   ├── refactor-safe/SKILL.md
+│   ├── code-simplification/SKILL.md
+│   ├── git-commit/SKILL.md
+│   ├── changelog-generator/SKILL.md
+│   ├── readme-generator/SKILL.md
+│   ├── docs-writer/SKILL.md
+│   ├── api-designer/SKILL.md
+│   ├── database-schema/SKILL.md
+│   ├── frontend-component/SKILL.md
+│   ├── docker-setup/SKILL.md
+│   ├── dsa-explainer/SKILL.md
+│   ├── leetcode-helper/SKILL.md
+│   └── assignment-helper/SKILL.md
+├── config/
+│   └── opencode.jsonc.example
+├── AGENTS.md
+├── README.md
+├── INSTALL.md
+└── LICENSE
+```
+
+---
+
+## Cài Đặt Nhanh
+
+Xem hướng dẫn đầy đủ cho Linux, macOS và Windows trong [INSTALL.md](INSTALL.md).
+
+### Cài toàn cục (dùng cho mọi dự án)
+
+- **Linux / macOS:**
+
+```bash
+git clone https://github.com/vuloc080611/DevKit-OpenCode.git
+mkdir -p ~/.config/opencode/skills
+cp -r DevKit-OpenCode/skills/* ~/.config/opencode/skills/
+cp DevKit-OpenCode/AGENTS.md ~/.config/opencode/AGENTS.md
+cp DevKit-OpenCode/config/opencode.jsonc.example ~/.config/opencode/opencode.jsonc
+```
+
+- **Windows (PowerShell):**
+
+```powershell
+git clone https://github.com/vuloc080611/DevKit-OpenCode.git
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.config\opencode\skills" | Out-Null
+Copy-Item -Recurse -Force "DevKit-OpenCode\skills\*" "$env:USERPROFILE\.config\opencode\skills\"
+Copy-Item -Force "DevKit-OpenCode\AGENTS.md" "$env:USERPROFILE\.config\opencode\AGENTS.md"
+Copy-Item -Force "DevKit-OpenCode\config\opencode.jsonc.example" "$env:USERPROFILE\.config\opencode\opencode.jsonc"
+```
+
+### Cài riêng cho một dự án
+
+Copy thư mục `skills/` vào `.opencode/skills/`, đặt [AGENTS.md](AGENTS.md) ở thư mục gốc dự án và tham khảo [config/opencode.jsonc.example](config/opencode.jsonc.example) để tạo `./opencode.jsonc`.
+
+---
+
+## Lộ Trình Áp Dụng Dần (Khuyên Dùng)
+
+Nếu bạn không muốn bật/học hết 24 skill cùng lúc, hãy làm quen theo thứ tự ưu tiên sau:
+
+1. **Làm rõ & Lập kế hoạch:** `grill-me` + `project-planner`
+2. **Sửa lỗi & Chốt đầu ra an toàn:** `systematic-debugging` + `verification-before-done`
+3. **Viết code có test bảo vệ:** `tdd-workflow`
+4. **Kiểm soát chất lượng & bảo mật:** `code-review` + `security-review`
+5. **Thao tác Git & tài liệu hằng ngày:** `git-commit` + `readme-generator`
+6. **Mở rộng theo nhu cầu:** Web/Backend (`api-designer`, `database-schema`, `frontend-component`, `docker-setup`), tối ưu/refactor, hoặc nhóm học tập (`dsa-explainer`, `leetcode-helper`, `assignment-helper`).
+
+---
+
+## Ví Dụ Prompt Thực Tế
+
+- **Trước khi làm tính năng mới:** *"Dùng `grill-me` hỏi kỹ yêu cầu trước khi code tính năng thanh toán qua VNPay cho đơn hàng."*
+- **Lập kế hoạch & code theo TDD:** *"Dùng `project-planner` chia task cho spec vừa chốt, rồi thực hiện Task 1 theo `tdd-workflow`."*
+- **Debug khi gặp lỗi khó:** *"API checkout đang bị 500 ngẫu nhiên khi áp mã giảm giá, dùng `systematic-debugging` điều tra nguyên nhân gốc trước khi sửa."*
+- **Review trước khi merge:** *"Chạy `code-review` và `security-review` cho `git diff` hiện tại, kiểm tra lỗi logic và IDOR."*
+- **Học thuật toán / LeetCode:** *"Dùng `leetcode-helper` gợi ý từng bước bài Word Break, chưa cần đưa code đáp án vội."*
+
+---
+
+## Giấy Phép
+
+Phát hành theo giấy phép [MIT License](LICENSE).
