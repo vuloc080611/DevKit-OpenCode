@@ -1,6 +1,6 @@
 ---
 name: incremental-implementation
-description: Execute features or multi-file changes in small, independently verifiable vertical slices with frequent clean checkpoints instead of giant speculative edits. Use when implementing a plan, building multi-layer features, or migrating subsystems safely ("làm từng bước nhỏ", "incremental", "vertical slice").
+description: Use whenever implementing a multi-file plan, cross-layer feature (DB + API + UI), or large migration in small verifiable vertical slices ("làm từng bước nhỏ", "incremental", "vertical slice", "safe rollout"). Keeps the build green after every slice via checkpoints, feature flags, or expand-then-switch boundaries.
 license: MIT
 compatibility: opencode
 metadata:
@@ -25,7 +25,7 @@ Build complex changes through thin, working increments where each slice compiles
    - Before touching files, run existing tests/build/typecheck (or `git status`) to verify whether the starting tree is clean and passing.
 2. **Select the Next Minimal Vertical Slice**:
    - Choose a slice small enough to inspect and verify in a single pass (typically 1-3 closely coupled files).
-   - Ensure the slice either adds a complete thin behavior end-to-end or lands behind a safe boundary (feature flag, new non-breaking helper) without breaking callers.
+   - Protect incomplete multi-slice work on `main` using safe seams: **feature flags**, **branch-by-abstraction** (new implementation alongside old behind an interface), or **expand-then-switch** (never break live callers mid-migration).
 3. **Implement & Verify Immediately**:
    - Apply the change (following `tdd-workflow` for logic).
    - Run targeted tests, typecheck, and linter immediately after the slice — do not stack Slice 2 on top of broken Slice 1.
@@ -41,6 +41,12 @@ Build complex changes through thin, working increments where each slice compiles
 - **DO NOT** move on to the next task while tests or typechecks are failing ("I'll fix the types at the end").
 - **DO NOT** leave half-wired dead code, commented-out blocks, or `TODO: implement later` stubs in critical paths.
 - **DO NOT** mix unrelated cleanups or formatting churn into a feature slice (keep diffs tight and reviewable).
+
+## Red Flags
+
+- Stacking Slice 2 on top of a failing typecheck or test ("I'll fix tests once Slice 3 lands").
+- Creating 5+ new files in one slice before anything compiles or executes.
+- Changing shared signatures without checking backward compatibility for existing callers.
 
 ## Slice Checkpoint Template
 

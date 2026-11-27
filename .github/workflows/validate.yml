@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  validate:
+  validate-linux:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -18,11 +18,37 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate skills, commands, config, and links
+      - name: Validate repository structure and links
         run: python scripts/validate.py
+
+      - name: Run validator unit tests
+        run: python -m unittest discover -s tests -v
 
       - name: Check bash installer syntax and dry-run
         run: |
           bash -n scripts/install.sh
           bash scripts/install.sh --target /tmp/devkit-test
           bash scripts/install.sh --target /tmp/devkit-core --core-only --skip-config --no-commands
+
+  validate-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate repository structure and links
+        run: python scripts/validate.py
+
+      - name: Run validator unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Check PowerShell installer dry-run
+        shell: pwsh
+        run: |
+          .\scripts\install.ps1 -TargetDir "$env:RUNNER_TEMP\devkit-full"
+          .\scripts\install.ps1 -TargetDir "$env:RUNNER_TEMP\devkit-core" -CoreOnly -SkipConfig -NoCommands

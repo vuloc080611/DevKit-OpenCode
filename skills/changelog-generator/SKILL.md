@@ -1,6 +1,6 @@
 ---
 name: changelog-generator
-description: Generate a clean, structured Keep-a-Changelog release summary (Added, Changed, Deprecated, Removed, Fixed, Security, Breaking Changes) directly from actual git commit history and tags. Use when preparing releases, release notes, or updating CHANGELOG.md ("tạo changelog", "release notes", "tổng hợp commit").
+description: Use whenever preparing a release, summarizing git history between tags/commits, or updating CHANGELOG.md ("tạo changelog", "release notes", "tổng hợp commit", "prepare release"). Produces Keep-a-Changelog notes from real git log history, handling breaking changes (`!`), monorepo paths, and untagged repos.
 license: MIT
 compatibility: opencode
 metadata:
@@ -21,11 +21,11 @@ Produce accurate, user-focused release notes directly from `git log` commit rang
 ## Step-by-Step Workflow
 
 1. **Determine Commit Range & Existing Style**:
-   - Inspect existing `CHANGELOG.md` (if present) to match version headings, link format, and release date style.
-   - Check tags (`git tag --sort=-v:refname | head -n 10`) and determine exact range (e.g., `<last-tag>..HEAD`).
+   - Inspect existing `CHANGELOG.md` (if present) to match version headings, comparison link format, and release date style.
+   - Check tags (`git tag --sort=-v:refname`) and determine exact range (`<last-tag>..HEAD`; if no tags exist yet, inspect full commit history from root). For monorepos, scope by package path (`git log <range> -- packages/<name>`).
 2. **Read Actual Commits (and Merge PRs)**:
    - Run `git log <range> --pretty=format:"%h|%ad|%s|%b" --date=short` (or `--no-merges` where appropriate).
-   - Inspect diff/commit bodies for any commit marked `!` or `BREAKING CHANGE`.
+   - Inspect diff/commit bodies for any commit marked `<type>!:` or `BREAKING CHANGE:`.
 3. **Filter & Categorize for End Users**:
    - Map commits into standard **Keep a Changelog** sections:
      - **Breaking Changes** (surface at top with migration steps!)

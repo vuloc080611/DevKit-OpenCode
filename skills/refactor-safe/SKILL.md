@@ -24,15 +24,16 @@ Improve internal code structure without altering observable external behavior, b
 
 1. **Map Scope & Callers First**:
    - Search the entire repository for all callers, imports, exports, dynamic references, and serialized contracts of the target code.
-2. **Establish a Test Safety Net**:
+2. **Establish a Characterization Test Safety Net**:
    - Run existing tests first.
-   - If existing coverage around the code to refactor is weak or missing, write **characterization tests** capturing current observable behavior (inputs, outputs, side effects, thrown errors) BEFORE changing structure.
+   - If existing coverage around the legacy target is weak or missing, write **characterization (golden-master) tests** capturing exact current observable behavior (return values, side effects, thrown error types, edge outputs) BEFORE changing structure — even when legacy behavior looks quirky.
 3. **Choose Small Mechanical Transformations**:
    - Break the refactor into tiny, reversible steps:
      - Extract pure helper function → run tests
      - Inject dependency / introduce interface → run tests
+     - Use **Parallel Implementation / Strangler Seam** when changing large public interfaces (keep old adapter calling new implementation until all callers migrate)
      - Move module & update all imports → run tests + typecheck
-     - Remove deprecated wrapper if all callers migrated → run tests
+     - Remove deprecated wrapper only after confirming zero remaining callers → run tests
 4. **Preserve Contracts (or Migrate All Callers Atomically)**:
    - Keep external signatures, error types, and return shapes identical unless an explicit contract migration across all callers is part of the plan.
 5. **Run Full Verification**:

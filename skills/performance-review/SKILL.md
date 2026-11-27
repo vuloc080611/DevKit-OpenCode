@@ -1,6 +1,6 @@
 ---
 name: performance-review
-description: Diagnose and optimize application performance through measurement-first profiling (latency, SQL N+1 queries, memory leaks, algorithmic complexity, bundle size, caching) without guessing. Use when investigating slow endpoints, high CPU/memory, heavy queries, or frontend lag ("tối ưu hiệu năng", "chậm quá", "N+1 query", "profile performance").
+description: Use whenever investigating slow endpoints, high CPU/RAM, SQL N+1 queries, async waterfalls, memory leaks, or frontend bundle bloat ("tối ưu hiệu năng", "chậm quá", "N+1 query", "profile performance", "slow query"). Enforces measure-first profiling before optimization and reports quantified before/after gains.
 license: MIT
 compatibility: opencode
 metadata:
@@ -26,11 +26,10 @@ Eliminate real bottlenecks backed by profiling, query plans, or complexity analy
    - Clarify SLA/budget (e.g., p95 < 200ms at 10k rows, bundle < 200KB gzip) and realistic data sizes ($N$, concurrency).
 2. **Measure Baseline Before Editing**:
    - Gather concrete evidence: benchmark script, profiler trace, `EXPLAIN ANALYZE`, query count logs, memory snapshot, or build bundle analyzer output.
-3. **Locate the Dominant Bottleneck (80/20 Rule)**:
-   - **Database:** N+1 queries inside loops, missing composite indexes, `SELECT *` pulling huge blobs, offset pagination on deep pages, missing connection pooling.
-   - **Backend / Async:** Sequential `await` in loops instead of bounded `Promise.all`, synchronous CPU/JSON/crypto work blocking event loop, unbounded in-memory caches leaking RAM.
-   - **Algorithmic:** $O(n^2)$ nested scans / repeated `.includes()` / `.find()` where a `Map`/`Set` gives $O(n)$.
-   - **Frontend:** Unmemoized expensive derived state, huge unsplit third-party dependencies, waterfall fetches, missing virtualization for long lists.
+3. **Locate the Dominant Bottleneck by Impact Tier**:
+   - **Tier 1 — Critical (Fix First):** N+1 DB queries inside loops, sequential async waterfalls (`await a; await b;` when independent → `Promise.all`), unbounded `SELECT *` / unpaginated queries, massive unsplit client JS bundles.
+   - **Tier 2 — High:** Missing composite DB indexes, $O(n^2)$ nested array scans (`find`/`includes` inside loops → `Map`/`Set`), synchronous CPU/JSON/crypto blocking the event loop, unbounded in-memory caches leaking RAM.
+   - **Tier 3 — Medium:** Unnecessary React cascading re-renders, missing list virtualization for 500+ rows, missing HTTP compression/cache headers.
 4. **Apply Targeted Fix**:
    - Fix the measured bottleneck cleanly (e.g., batch query / JOIN / dataloader, index + keyset pagination, streaming instead of buffering whole files, `Map` lookup).
 5. **Re-Measure & Compare Before vs After**:

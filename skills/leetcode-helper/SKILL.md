@@ -22,8 +22,15 @@ Help learners genuinely master algorithmic problem-solving through structured hi
 ## Step-by-Step Workflow
 
 ### Mode A: Progressive Coaching (Default)
-1. **Clarify Constraints & Invariants**:
-   - Check input bounds ($N \le 10^3$ vs $10^5$ vs $10^9$), value ranges (negatives, zeros, duplicates), and required time/space targets based on constraints.
+1. **Clarify Constraints & Target Complexity**:
+   - Map input bounds ($N$) to target Big-O before picking an algorithm:
+     - $N \le 12$: $O(n!)$ backtracking / permutations
+     - $N \le 20$: $O(2^n)$ bitmask / subset DP
+     - $N \le 500$: $O(n^3)$ Floyd-Warshall / interval DP
+     - $N \le 5,000$: $O(n^2)$ DP / two-level scans
+     - $N \le 10^5$: $O(n \log n)$ sort / binary search / heap or $O(n)$ hash map / sliding window / two pointers
+     - $N \ge 10^8$: $O(\log n)$ or $O(1)$ math / binary search
+   - Check negative values, zeros, duplicates, and integer overflow (`int32` vs `int64` / mod `10^9 + 7`).
 2. **Start from Brute Force**:
    - Briefly state the straightforward naive approach and *why* it fails constraints (e.g., $O(n^2)$ exceeds ~`10^8` ops when $N = 10^5$).
 3. **Give Tiered Hints (Stop Before Full Code)**:
@@ -40,6 +47,7 @@ Help learners genuinely master algorithmic problem-solving through structured hi
 ## Anti-Patterns (Do Not)
 
 - **DO NOT** dump the complete optimal copy-paste solution on turn 1 when the user asks for help/hints learning a problem.
+- **DO NOT** break the Anti-Spoiler Gate even if you feel eager to show off clean code — stop after Hint 1 + Hint 2 + Edge Cases until the learner tries or explicitly asks `"show full solution"`.
 - **DO NOT** ignore constraints ($N$, negative numbers, mod `10^9 + 7`) — constraints dictate which complexity passes!
 - **DO NOT** give cryptic one-word hints ("use DP") without guiding *what state* to track.
 - **DO NOT** overlook off-by-one boundaries or overflow risks in C++/Java.

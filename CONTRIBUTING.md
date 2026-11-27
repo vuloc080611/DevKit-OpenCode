@@ -37,10 +37,11 @@ When adding or modifying a command under `commands/<name>.md`:
 
 ## Local Verification Before Opening a PR
 
-Always run the repository validator before committing:
+Always run the repository validator and unit tests before committing:
 
 ```bash
 python scripts/validate.py
+python -m unittest discover -s tests -v
 ```
 
 On Linux / macOS (or Git Bash), also sanity-check the bash installer:

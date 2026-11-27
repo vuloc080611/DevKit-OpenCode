@@ -21,8 +21,9 @@ Identify exploitable security flaws across trust boundaries, data flows, configu
 
 ## Step-by-Step Security Audit
 
-1. **Map Entry Points & Trust Boundaries**:
-   - Identify untrusted inputs (HTTP params, headers, cookies, uploaded files, webhook payloads, URL params, LLM/tool outputs) and sensitive sinks (DB queries, shell commands, filesystem paths, HTML templates, outbound HTTP requests).
+1. **Map Entry Points, Trust Boundaries & Data-Flow Taint**:
+   - Trace untrusted sources (HTTP params, headers, cookies, uploaded files, webhooks, URL params, LLM/tool outputs) through validators/sanitizers to sensitive sinks (DB queries, shell commands, filesystem paths, HTML templates, outbound HTTP requests).
+   - If the codebase calls AI/LLM APIs, verify secrets stay server-side and untrusted model/user text never passes unsanitized into SQL, shell, or dangerous tool execution.
 2. **Audit Authentication & Session Management**:
    - Password hashing (`bcrypt`/`argon2`, never MD5/SHA-256), constant-time comparisons for tokens/signatures, short-lived access tokens + revocable refresh tokens, secure cookie flags (`HttpOnly`, `Secure`, `SameSite`), brute-force rate limiting.
 3. **Audit Authorization (Access Control)**:
@@ -37,8 +38,9 @@ Identify exploitable security flaws across trust boundaries, data flows, configu
    - Search for hardcoded API keys, fallback JWT secrets (`process.env.JWT_SECRET || "dev-secret"`), sensitive fields leaked in API responses/logs (passwords, tokens, PII), and missing CORS/CSRF protections.
 6. **Check Dependencies & Config**:
    - Inspect lockfiles/manifests (`npm audit`, `pip-audit` if available), permissive CORS (`origin: "*"` with `credentials: true`), debug stack traces enabled in prod.
-7. **Report Exploit Scenario + Minimal Fix**:
-   - Rank by Risk (`Critical`, `High`, `Medium`, `Low`) with attack vector and exact remediation code.
+7. **Apply Confidence Gate & Report Exploit + Minimal Fix**:
+   - Filter out low-confidence theoretical noise: confirm an actual reachable trust-boundary flaw or missing control before flagging `Critical`/`High` (place optional defense-in-depth hardening under `Low`).
+   - Rank by Risk (`Critical`, `High`, `Medium`, `Low`) with concrete attack vector and exact remediation code.
 
 ## Anti-Patterns (Do Not)
 

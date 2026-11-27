@@ -31,8 +31,9 @@ Design normalized, constraint-enforced schemas and safe migrations matched to re
    - Store timestamps in `TIMESTAMPTZ` (UTC).
 3. **Design Indexes From Actual Queries**:
    - Follow leftmost-prefix rule for composite B-Tree indexes: put equality columns before range/sort columns (`WHERE tenant_id = ? AND status = ? ORDER BY created_at DESC` → `(tenant_id, status, created_at DESC)`).
-   - Add partial indexes (`WHERE deleted_at IS NULL`) when queries consistently filter active rows.
-   - Do not over-index write-heavy tables without read justification.
+   - **Always index foreign key columns** used in joins or parent-delete checks (PostgreSQL does not auto-index FK columns!).
+   - Use partial indexes (`WHERE deleted_at IS NULL`), GIN indexes (for `JSONB`/full-text), or covering `INCLUDE (...)` indexes where justified, without over-indexing write-heavy tables.
+   - If using **Row-Level Security (RLS)**, index policy columns and wrap `auth.uid()`/`current_setting()` in `(SELECT ...)` subselects so Postgres evaluates once per statement.
 4. **Plan Safe, Reversible Migrations**:
    - Separate destructive changes using **Expand → Backfill → Contract** across releases (add nullable column → backfill in batches → add `NOT NULL` / drop old column later).
    - On large Postgres tables, note `CREATE INDEX CONCURRENTLY` (outside transaction block) to avoid locking writes.

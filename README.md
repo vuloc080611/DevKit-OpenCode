@@ -152,13 +152,19 @@ DevKit-OpenCode/
 │   ├── database-schema/
 │   │   ├── SKILL.md
 │   │   └── references/postgres-migration-patterns.md
-│   ├── frontend-component/SKILL.md
-│   ├── docker-setup/SKILL.md
+│   ├── frontend-component/
+│   │   ├── SKILL.md
+│   │   └── references/a11y-and-ui-checklist.md
+│   ├── docker-setup/
+│   │   ├── SKILL.md
+│   │   └── references/multi-stack-dockerfiles.md
 │   ├── dsa-explainer/SKILL.md
 │   ├── leetcode-helper/SKILL.md
 │   └── assignment-helper/
 │       ├── SKILL.md
 │       └── references/capstone-report-template.md
+├── tests/
+│   └── test_validate.py          # Unit tests cho script validator
 ├── AGENTS.md
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md

@@ -35,3 +35,8 @@ Load this checklist during `security-review` when auditing Node.js/TypeScript, P
 - CORS never combines `Access-Control-Allow-Origin: *` with `Access-Control-Allow-Credentials: true`; allowlist explicit trusted origins.
 - Sensitive endpoints (`login`, `forgot-password`, `otp-verify`, `coupons/preview`) protected with IP + account rate limiting.
 - Production error handlers return generic messages + `requestId`; stack traces, SQL queries, and env dumps stay in server logs only (redacting `Authorization`, `Cookie`, passwords, and tokens).
+
+## 7. AI / LLM & Agent Integrations (If Applicable)
+- LLM API keys (`OPENAI_API_KEY`, `GEMINI_API_KEY`, etc.) reside strictly server-side behind auth + per-user rate/budget quotas — never bundled in frontend JS.
+- Treat untrusted user prompts, scraped webpages, emails, and retrieved RAG documents as untrusted input: never pass raw LLM output directly to `eval`, SQL queries, shell commands, or unsanitized HTML (`XSS`).
+- Enforce explicit authorization checks *inside* tool handlers regardless of what arguments the LLM supplies (never trust model-supplied `userId` or `tenantId` without session verification).

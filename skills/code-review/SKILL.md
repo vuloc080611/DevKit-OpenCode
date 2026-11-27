@@ -21,8 +21,8 @@ Deliver high-signal, actionable code reviews focused on real bugs, missing edge 
 
 ## Step-by-Step Workflow
 
-1. **Understand Context & Intent**:
-   - Inspect the full diff (`git diff`, PR scope) AND surrounding callers/tests — never review isolated lines without reading how they are called.
+1. **Context Expansion (Never Review Isolated Hunks Alone)**:
+   - Inspect the full diff (`git diff`, PR scope), **read the entire modified file(s)**, and inspect surrounding callers, types, and tests so you understand full control flow and error handling.
 2. **Evaluate Across 5 Dimensions**:
    - **Correctness & Edge Cases:** Off-by-one, null/undefined, empty collections, error propagation, race conditions, partial failure, resource leaks.
    - **Security & Trust Boundaries:** Input validation, auth/authz checks, secret exposure, injection risks.
@@ -34,7 +34,8 @@ Deliver high-signal, actionable code reviews focused on real bugs, missing edge 
    - **`[Major]`**: Missing edge-case handling, missing critical tests, significant performance/maintenance traps.
    - **`[Minor]`**: Small clarity/structure improvements with clear benefit.
    - **`[Nit]`**: Optional style or naming suggestions (label clearly so author isn't blocked).
-4. **Provide Evidence + Concrete Fix**:
+4. **Apply False-Positive Gate & Provide Concrete Fix**:
+   - Verify every claim against actual callers, schema types, and middleware before writing it — never report a speculative guess as `[Blocker]`.
    - Cite exact `file:line`, explain *why* it fails or risks breaking, and suggest a concrete patch.
 5. **Acknowledge Strengths & State Merge Verdict**:
    - Give a clear verdict: `Approve`, `Approve with minor suggestions`, or `Request Changes`.

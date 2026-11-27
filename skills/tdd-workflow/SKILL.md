@@ -1,6 +1,6 @@
 ---
 name: tdd-workflow
-description: Enforce strict Red-Green-Refactor test-driven development by writing a failing test first, verifying it fails for the expected reason, writing minimal production code to pass, and refactoring safely. Use when implementing new features, business logic, bug fixes, or when the user asks for TDD ("viết test trước", "TDD", "Red-Green-Refactor").
+description: Use whenever implementing business logic, API handlers, parsers, validators, or bug fixes using Red-Green-Refactor ("viết test trước", "TDD", "Red-Green-Refactor", "test-first"). Strictly bans writing production code before watching a new failing test fail for the expected reason.
 license: MIT
 compatibility: opencode
 metadata:
@@ -46,6 +46,16 @@ Write no production logic before a failing test proves what is missing or broken
 - **DO NOT** write multiple failing tests across 5 features at once before making the first one green.
 - **DO NOT** mock the system under test so heavily that the test only asserts your mocks return what you configured.
 - **DO NOT** weaken or delete an existing assertion just to turn a broken build green.
+
+## Red Flags & Rationalizations to Reject
+
+| Excuse / Temptation | Reality & Required Action |
+|---|---|
+| *"I'll write the test immediately after implementing."* | **STOP.** Post-hoc tests prove existing code passes, not that the test catches missing behavior. Write the failing test first. |
+| *"New test passed on first try — great!"* | **STOP.** An immediate pass means the behavior already existed or the assertion tests the wrong thing. Prove the test can fail first. |
+| *"Too simple / trivial to write a failing test first."* | **STOP.** Simple functions take 30 seconds to test first and prevent subtle boundary regressions (`0`, `null`, `NaN`). |
+| *"Keep the untested draft as reference while writing the test."* | **STOP.** Delete/stash the untested production edit, observe RED first, then write minimal code to reach GREEN. |
+| *"I already tested it manually."* | **STOP.** Manual runs aren't repeatable regressions. Capture the check in an automated test. |
 
 ## Iron Rule
 

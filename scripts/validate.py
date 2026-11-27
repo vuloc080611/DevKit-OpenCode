@@ -145,16 +145,25 @@ def validate_skills(errors: list[str]) -> list[str]:
         if "## Examples" not in body:
             errors.append(f"skills/{skill}/SKILL.md: missing Examples section")
 
+        line_count = len(text.splitlines())
+        if line_count > 500:
+            errors.append(f"skills/{skill}/SKILL.md: {line_count} lines exceeds 500-line lean budget")
+
         check_markdown_links(md_path, errors)
 
     return discovered
 
 
-def validate_commands(errors: list[str]) -> list[str]:
-    commands_dir = ROOT / "commands"
+def validate_commands(
+    skills: list[str],
+    errors: list[str],
+    commands_dir: Path | None = None,
+) -> list[str]:
+    commands_dir = commands_dir or (ROOT / "commands")
     if not commands_dir.is_dir():
         return []
 
+    known_skills = set(skills)
     cmds = sorted(p for p in commands_dir.glob("*.md") if p.is_file())
     for cmd_path in cmds:
         text = cmd_path.read_text(encoding="utf-8")
@@ -172,6 +181,12 @@ def validate_commands(errors: list[str]) -> list[str]:
             errors.append(f"commands/{cmd_path.name}: invalid `agent` `{fm_agent.group(1).strip()}`")
         if not body.strip():
             errors.append(f"commands/{cmd_path.name}: empty prompt template body")
+        elif known_skills:
+            referenced = set(re.findall(r"`([a-z0-9-]+)`", body))
+            if not (referenced & known_skills):
+                errors.append(
+                    f"commands/{cmd_path.name}: must reference at least one valid skill name in backticks"
+                )
 
     return [p.stem for p in cmds]
 
@@ -224,7 +239,7 @@ def validate_docs(skills: list[str], errors: list[str]) -> None:
 def main() -> int:
     errors: list[str] = []
     skills = validate_skills(errors)
-    commands = validate_commands(errors)
+    commands = validate_commands(skills, errors)
     validate_config(skills, errors)
     validate_docs(skills, errors)
 

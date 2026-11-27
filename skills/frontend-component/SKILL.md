@@ -24,9 +24,10 @@ Craft production-grade UI components that feel native to the project's design sy
 1. **Inspect the Project's Design System & Component Primitives**:
    - Check `package.json`, Tailwind config / CSS tokens, existing `components/ui/` primitives (Radix/shadcn/Headless UI/etc.), typography, spacing scale, and icon library.
    - Reuse existing tokens and primitives instead of inventing inline magic colors or duplicate button/modal wrappers.
-2. **Design Clean Props & State Ownership**:
-   - Keep component API minimal, typed, and predictable (support controlled/uncontrolled cleanly where needed; compose with `children` / slots instead of 20 boolean flags).
-   - Separate pure display presentation from data-fetching / side-effect hooks when logic grows complex.
+2. **Lock a Compact Design Plan & State Ownership Before JSX**:
+   - Before writing markup, pick a concise plan matching the host app: **4-6 semantic color tokens** (no arbitrary hex guessing), typography hierarchy, spacing rhythm, and responsive layout (`360px` mobile → `1440px` desktop).
+   - Keep component API minimal, typed, and predictable (compose with compound components / `children` slots instead of 15 boolean flags).
+   - Avoid derived-state `useEffect` (compute during render) and protect async actions with `AbortController` + double-submit locks.
 3. **Cover Every UI State Explicitly**:
    - Never build only the happy path! Handle:
      - **Loading** (skeleton/spinner with `aria-busy` or disabled duplicate submit)
@@ -58,6 +59,10 @@ Craft production-grade UI components that feel native to the project's design sy
 - [ ] Semantic HTML, labeled inputs, keyboard navigation, and `focus-visible` states
 - [ ] Mobile-friendly layout (`360px`+) without horizontal overflow
 - [ ] Typecheck & build pass after final edit
+
+## Reference Files
+
+- For interactive ARIA keyboard contracts (Dialog, Combobox, Tabs, Menu), responsive targets, and React state pitfalls, see [a11y-and-ui-checklist.md](references/a11y-and-ui-checklist.md).
 
 ## Examples
 

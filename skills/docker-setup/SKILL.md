@@ -1,6 +1,6 @@
 ---
 name: docker-setup
-description: Create production-grade multi-stage Dockerfiles and clean compose.yaml / docker-compose setups with minimal image size, non-root users, deterministic dependency caching, healthchecks, and secure secret/env handling. Use when containerizing apps or setting up local/prod Docker environments ("viết Dockerfile", "docker-compose", "tối ưu docker image").
+description: Use whenever containerizing apps, slimming oversized Docker images, fixing slow build caches, or configuring multi-service compose.yaml stacks ("viết Dockerfile", "docker-compose", "tối ưu docker image", "Docker image too big"). Produces pinned multi-stage Dockerfiles, .dockerignore, non-root users, and healthchecked Compose configs.
 license: MIT
 compatibility: opencode
 metadata:
@@ -46,6 +46,10 @@ Build small, reproducible, secure containers and dependable multi-service `compo
 - **DO NOT** `COPY . .` before `npm ci` / `pip install` (busts dependency cache on every single code edit).
 - **DO NOT** bake `.env`, SSH keys, or API secrets into `Dockerfile` `ENV`/`ARG` layers (they persist in image history).
 - **DO NOT** use shell-form `CMD npm start` without checking signal forwarding (`SIGTERM` graceful shutdown).
+
+## Reference Files
+
+- For copy-ready multi-stage production Dockerfiles covering **Python (`uv` + FastAPI)**, **Go (distroless non-root)**, and **Next.js (`output: "standalone"`)**, see [multi-stack-dockerfiles.md](references/multi-stack-dockerfiles.md).
 
 ## Examples
 

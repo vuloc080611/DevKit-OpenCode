@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: Relentlessly interrogate ambiguous feature requests, project ideas, or bug reports until edge cases, constraints, non-goals, and success criteria are crystal clear before writing any code. Use when a prompt is vague, underspecified, large, high-risk, or when the user asks to clarify requirements first ("hỏi kỹ trước khi code", "interview me", "clarify requirements").
+description: Use whenever a feature request, project idea, or architecture ask is vague, underspecified, large, or carries hidden edge cases ("build me", "add feature", "làm hệ thống", "hỏi kỹ trước khi code", "clarify requirements"). Relentlessly interview the user on constraints, failure modes, non-goals, and acceptance criteria before writing any code.
 license: MIT
 compatibility: opencode
 metadata:
@@ -49,6 +49,14 @@ Force clarity before implementation. When requirements are ambiguous, incomplete
 - **DO NOT** ask questions whose answers are already visible in `package.json`, schema files, or existing code.
 - **DO NOT** silently invent business rules (e.g., pricing logic, permission defaults, retention policies) without surfacing them.
 - **DO NOT** accept vague answers like "make it secure/fast" without pinning down concrete thresholds or rules.
+
+## Red Flags & Rationalizations to Reject
+
+| Excuse / Temptation | Required Action |
+|---|---|
+| *"User wants speed — I'll pick sensible defaults and code now."* | **STOP.** State your proposed defaults as 3–5 quick confirmation questions; guessing wrong costs far more time than 1 clarification round. |
+| *"Let me scaffold the basic files first, we'll clarify details later."* | **STOP.** Scaffolding before alignment bakes wrong data models and boundaries into the codebase. |
+| *"I'll ask 15 thorough questions so nothing is missed."* | **STOP.** Prioritize the top 3–5 blocking decisions first; resolve follow-up details in Round 2 only if needed. |
 
 ## Output Checklist
 

@@ -32,8 +32,8 @@ Build genuine understanding of data structures and algorithms — never dump bar
    - Cover Best / Average / Worst cases and auxiliary space vs total space when relevant.
 5. **Provide Clean, Annotated Reference Code + Common Pitfalls**:
    - Keep code idiomatic, readable, and tested mentally against edge cases (empty input, duplicates, negative weights, disconnected graphs, overflow).
-6. **Check Understanding**:
-   - Summarize "When to recognize this pattern in the wild" and offer a small follow-up variation question.
+6. **Check Understanding & Pattern Signals**:
+   - Summarize "When to recognize this pattern in the wild" using input/constraint signals (e.g., *"sorted/monotonic property → Binary Search; next greater/smaller → Monotonic Stack; unweighted shortest path → BFS; weighted non-negative → Dijkstra"*) and offer a small follow-up variation question.
 
 ## Anti-Patterns (Do Not)
 

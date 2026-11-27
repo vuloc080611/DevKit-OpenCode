@@ -1,6 +1,6 @@
 ---
 name: verification-before-done
-description: Enforce a mandatory verification gate before claiming any task, bug fix, refactor, or feature is complete. Requires running actual tests, linters, typechecks, and edge-case checks after the final edit and reporting observed output verbatim. Use before finishing any coding task ("kiểm tra xong chưa", "verify before done", "ready to merge").
+description: Use ALWAYS before claiming any task, bug fix, refactor, or PR is done ("xong chưa", "done", "fixed", "all tests pass", "ready to merge", "verify before done"). Requires executing fresh test, typecheck, lint, and build commands AFTER the final edit and reporting verbatim observed output.
 license: MIT
 compatibility: opencode
 metadata:
@@ -45,6 +45,16 @@ Never declare victory based on intuition, stale test runs, or partial checks. Ev
 ## Iron Rule
 
 > **No fresh execution output = no completion claim. State exactly what ran, what passed, what failed, and what remains unverified.**
+
+## Red Flags & Rationalizations to Reject
+
+| Excuse / Temptation | Reality & Enforcement |
+|---|---|
+| *"Should work now" / "Looks right by inspection."* | **RUN the verification command.** Confidence is not evidence. |
+| *"Tests passed before my last small tweak."* | **RE-RUN after the final edit.** Any edit invalidates prior test output. |
+| *"Linter / typecheck passed, so runtime works."* | **Linter ≠ test suite / runtime behavior.** Run tests too. |
+| *"Single filtered test file passed (`foo.test.ts`)."* | **Report exact scope.** Never claim "the whole test suite passes" from a filtered run. |
+| *"Too trivial to re-run build/tests."* | **Simple typos break production builds daily.** Run the check. |
 
 ## Verification Summary Template
 

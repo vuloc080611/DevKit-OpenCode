@@ -29,8 +29,9 @@ Make code shorter, flatter, and easier for a teammate to understand in 30 second
    - **Dead / Speculative Abstractions:** Inline single-use wrappers, unused interfaces, redundant pass-through classes, and speculative config flags nobody uses.
    - **Repeated Conditionals:** Replace long `if/elif` chains mapping keys to values with a clean lookup object/table.
    - **Duplication:** Merge near-identical branches into one parameterized helper (only when the abstraction genuinely clarifies intent).
-3. **Preserve Readability & Edge Guards**:
-   - Keep explicit validation, boundary checks, error context, and meaningful comments explaining *why*.
+3. **Separate Essential vs Accidental Complexity**:
+   - **Keep (Essential):** Explicit input validation, null/finite/bounds guards, auth/ownership checks, currency integer rounding, error context, and non-obvious *why* comments.
+   - **Remove (Accidental):** >3 levels of nesting, >4 positional boolean/flag parameters, single-implementation pass-through classes, unused config knobs, and redundant wrappers.
 4. **Verify Behavior Unchanged**:
    - Run tests, typecheck, and linter after simplifying (`verification-before-done`).
 

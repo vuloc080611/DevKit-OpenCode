@@ -1,6 +1,6 @@
 ---
 name: git-commit
-description: Inspect actual staged and working git diffs, check repository commit history style, and generate accurate Conventional Commit messages (with optional scope, why-focused body, and breaking change footer). Use when committing code, writing commit messages, or splitting messy changes ("viết commit message", "git commit", "conventional commit").
+description: Use whenever committing code, reviewing staged/working changes before commit, writing a Conventional Commit message, or splitting mixed edits ("viết commit message", "git commit", "stage and commit", "split commits", "conventional commit"). Scans diffs for accidental secrets/debug logs and crafts accurate why-focused messages.
 license: MIT
 compatibility: opencode
 metadata:
@@ -24,9 +24,9 @@ Craft clean, accurate commit messages grounded strictly in the actual diff (`git
 1. **Inspect Git State & Recent Style**:
    - Run `git status --short`, `git diff --staged`, and (if nothing staged yet) `git diff` to see exact modified files and hunks.
    - Check `git log -n 10 --oneline` to match existing repo conventions (scope naming, imperative style, ticket tags).
-2. **Check Commit Atomicity & Safety**:
-   - Scan diffs for accidental `.env`, API secrets, debug `console.log`, or unrelated edits. Warn immediately if found!
-   - If staged changes mix unrelated concerns (e.g., a bugfix + an unrelated dependency bump + a refactor), recommend splitting into separate atomic commits.
+2. **Check Commit Atomicity & Pre-Commit Secret Scan**:
+   - Scan diff hunks for accidental `.env*`, API tokens (`sk-`, `ghp_`, `AKIA`, `BEGIN PRIVATE KEY`), `console.log`/`print` debug leftovers, or commented-out dead code. Warn and stop before staging if found!
+   - If changes mix unrelated concerns across files (or within the same file), recommend splitting into atomic commits (using `git add <file>` or interactive hunk staging `git add -p`).
 3. **Select Accurate Type & Scope**:
    - `feat`: new user-facing capability
    - `fix`: bug fix

@@ -148,9 +148,10 @@ npx skills add vuloc080611/DevKit-OpenCode -a opencode -g
 
 ## Validation & Contributing
 
-- Validate repository integrity locally with:
+- Validate repository integrity and unit tests locally with:
   ```bash
   python scripts/validate.py
+  python -m unittest discover -s tests -v
   ```
 - Review trigger accuracy prompts in [docs/eval-prompts.md](docs/eval-prompts.md).
 - Read [CONTRIBUTING.md](CONTRIBUTING.md) before proposing new skills or commands, and see [CHANGELOG.md](CHANGELOG.md) for release history.

@@ -1,6 +1,6 @@
 ---
 name: assignment-helper
-description: Mentor students on university programming assignments, labs, and capstone projects (do an / bai tap lon) through rubric breakdown, clean module architecture, report structuring, test verification, and guided debugging without fabricating results or encouraging plagiarism. Use for coursework, lab exercises, or capstone reports ("hỗ trợ đồ án", "bài tập lớn", "assignment", "viết báo cáo đồ án").
+description: Use whenever mentoring students on university programming labs, term projects, or graduation capstones ("hỗ trợ đồ án", "bài tập lớn", "assignment", "viết báo cáo đồ án", "viva defense"). Covers rubric unpacking, clean module architecture, report outlines, real test evaluation, and defense prep without fabricating data or plagiarizing.
 license: MIT
 compatibility: opencode
 metadata:
@@ -36,7 +36,8 @@ Guide students to build solid, well-tested academic projects and clear technical
      4. Implementation Highlights (actual code structure & key algorithms)
      5. Testing & Evaluation (real test cases run, observed outputs, limitations)
      6. Conclusion & Future Work
-5. **Prepare for Viva / Defense Questions**:
+5. **Prepare for Viva / Defense Questions & Code Ownership**:
+   - Explain 3 key design/implementation decisions made in the student's codebase so they never submit unexplained "black-box" code.
    - List 5-8 likely instructor questions ("Why did you pick this DB?", "How does your auth handle X?", "What is the time complexity of module Y?") with concise honest answers grounded in the actual project.
 
 ## Anti-Patterns (Do Not)

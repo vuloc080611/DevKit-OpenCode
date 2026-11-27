@@ -27,6 +27,7 @@ Produce concise, maintainable documentation that explains contracts, invariants,
 2. **Match Audience & Format**:
    - **Code Docstrings:** Document *contract, invariants, units, edge cases, and raised errors* — skip restating types already clear from signatures.
    - **Developer / Integration Guides:** Prerequisites → Auth → End-to-End Example → Error Handling → Edge Cases.
+   - **Migration / Upgrade Guides:** What Changed → Breaking Impacts → Step-by-Step Upgrade → Verification Check.
    - **Operational Runbooks:** Trigger/Alert → Quick Triage Checks → Diagnosis → Safe Mitigation / Rollback → Escalation.
 3. **Preserve Unrelated Comments & Code Integrity**:
    - When adding docstrings to source files, keep existing behavior and unrelated comments untouched.

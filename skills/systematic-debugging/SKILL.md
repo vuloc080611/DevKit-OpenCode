@@ -1,6 +1,6 @@
 ---
 name: systematic-debugging
-description: Investigate bugs, crashes, regressions, and flaky tests through strict scientific root-cause analysis (Reproduce -> Collect Evidence -> Formulate 1 Hypothesis -> Verify -> Fix Root Cause -> Verify). Use whenever debugging an error, stack trace, failing test, or unexpected behavior ("debug lỗi", "sửa bug", "tại sao lỗi này xảy ra", "investigate crash").
+description: Use whenever investigating bugs, crashes, TypeErrors, HTTP 500s, CI failures, flaky tests, or regressions ("debug lỗi", "sửa bug", "tại sao lỗi", "investigate crash", "flaky test"). Enforces 6-step scientific root-cause debugging (Reproduce -> Evidence -> 1 Hypothesis -> Verify -> Root Fix -> Regression Test) with zero guessing.
 license: MIT
 compatibility: opencode
 metadata:
@@ -28,8 +28,8 @@ Never guess and patch symptoms. Find the proven root cause through reproducible 
 
 ### Step 2: Gather Raw Evidence (Read Everything)
 - Inspect the **complete** error message, stack trace, exit code, and server/test logs — never stop at line 1.
-- Check recent diffs (`git diff`, `git log -n 5`) if this is a regression.
-- Read the actual failing code path and trace values from entry to failure point.
+- Check recent diffs (`git diff`, `git log -n 5`) if this is a regression, and compare against working sibling code paths.
+- **Multi-Component Boundary Tracing:** When a bug crosses layers (e.g., Client → API → Queue → DB), add temporary boundary inspection (inputs/outputs/env entering and leaving each layer) in ONE diagnostic pass to isolate *which* boundary broke before forming a fix hypothesis.
 
 ### Step 3: Formulate ONE Explicit Hypothesis
 - State clearly: *"I hypothesize X causes Y because Z."*
@@ -38,7 +38,7 @@ Never guess and patch symptoms. Find the proven root cause through reproducible 
 ### Step 4: Verify the Hypothesis (Before Editing Production Code)
 - Confirm X via targeted inspection, debugger/temporary diagnostic log, minimal reproduction script, or `git bisect`.
 - **If disproved:** Revert any temporary diagnostic probes, update your mental model, and form a new hypothesis.
-- **Circuit Breaker:** If **2 consecutive hypotheses fail**, STOP making guesses. Re-read assumptions from scratch (wrong config file? stale build artifact? wrong DB/env? misunderstood API contract?) and report findings clearly.
+- **3-Failure Architectural Stop:** If **3 consecutive hypotheses or fix attempts fail**, STOP editing immediately. Question fundamental assumptions (stale build cache? wrong env/DB target? race condition? broken architectural invariant?) and present findings to the user before continuing.
 
 ### Step 5: Implement a Targeted Root-Cause Fix + Regression Test
 - Fix the underlying cause, not just a surface null-check symptom.
@@ -55,6 +55,15 @@ Never guess and patch symptoms. Find the proven root cause through reproducible 
 - **DO NOT** propose a fix before reading the full stack trace and reproducing (or inspecting actual failing logs).
 - **DO NOT** leave `console.log` / `print` debug statements behind after fixing.
 - **DO NOT** delete or skip a failing test to make CI look green.
+
+## Red Flags & Rationalizations to Reject
+
+| Excuse / Temptation | Reality & Required Action |
+|---|---|
+| *"Quick patch for now, investigate root cause later."* | **STOP.** Symptom patches (`?.`, `\|\| ""`, `catch {}`) hide the real defect and shift corruption downstream. |
+| *"Let me tweak 3 things at once and re-run."* | **STOP.** Multi-variable changes make it impossible to know what fixed or masked the bug. Test 1 hypothesis at a time. |
+| *"It's probably X — let me push a fix without reproducing."* | **STOP.** Unreproduced "fixes" fail silently in production. Reproduce first or state clearly why reproduction wasn't possible locally. |
+| *"I don't fully understand why this happened, but tests pass now."* | **STOP.** Coincidence isn't a root cause. Explain the exact mechanism that broke and why your change fixes it. |
 
 ## Debug Report Format
 

@@ -1,6 +1,6 @@
 ---
 name: spec-writer
-description: Transform clarified requirements or product ideas into a concise, actionable PRD or technical specification with goals, non-goals, user flows, functional requirements, edge cases, and verifiable acceptance criteria. Use when writing a PRD, feature spec, or technical design doc ("viết spec", "viết PRD", "làm đặc tả tính năng").
+description: Use whenever converting aligned requirements or product ideas into a concise, actionable PRD or technical specification ("write spec", "PRD", "acceptance criteria", "viết spec", "đặc tả tính năng"). Produces goals, non-goals, user flows, data contracts, edge cases, and testable Given/When/Then criteria.
 license: MIT
 compatibility: opencode
 metadata:
@@ -31,6 +31,7 @@ Convert aligned requirements into a crisp, unambiguous specification that engine
    - Define **Data & Interface Contracts** (fields, types, validation constraints, state transitions, auth rules).
 4. **Capture Edge Cases & Failure Handling**:
    - List every non-happy-path scenario: empty states, invalid inputs, duplicates, rate limits, concurrency races, downstream failures, and rollback expectations.
+   - Check operational readiness: **backward compatibility**, **data migration/backfill**, **idempotency**, **observability (logs/metrics)**, and **rollout/rollback** impact.
 5. **Write Testable Acceptance Criteria**:
    - Express each requirement in verifiable **Given / When / Then** or concrete pass/fail assertions — never vague adjectives like "fast" or "intuitive".
 6. **Surface Open Questions (If Any)**:

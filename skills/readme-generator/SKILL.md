@@ -23,8 +23,11 @@ Create scannable, practical `README.md` files verified strictly against real fil
 1. **Inspect the Real Codebase First (Never Guess)**:
    - Read directory layout, manifest files (`package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`), `.env.example`, `compose.yaml`, `Makefile`, and entrypoints.
    - Note exact runtime versions, package manager (`npm`/`pnpm`/`uv`/`poetry`), scripts (`dev`, `build`, `test`, `lint`), and existing links.
-2. **Clarify Audience & Language**:
-   - Match the project's primary language (English or Vietnamese) and audience (open-source contributors, internal team, or end users).
+2. **Tailor Structure to Project Type & Language**:
+   - Match the project's primary language (English or Vietnamese) and shape sections to what the repo actually is:
+     - **Web App / API Service:** Prerequisites, Env Vars table (`.env.example`), DB/Docker startup, Endpoints/Auth overview, Testing.
+     - **Library / SDK:** Install command, 10-line Minimal Working Example, Public API/Types summary, License.
+     - **CLI Tool:** Install, Command/Flags table, Practical Examples, Exit Codes / Troubleshooting.
 3. **Structure for Fast Onboarding (< 2 min to understand)**:
    - **Title & 1-sentence Value Prop**: What it does and who it is for.
    - **Key Features**: Concrete capabilities actually implemented (not wishlist vaporware).

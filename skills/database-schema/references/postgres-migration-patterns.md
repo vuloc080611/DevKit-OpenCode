@@ -50,3 +50,8 @@ SET lock_timeout = '3s';
 SET statement_timeout = '30s';
 ```
 If lock acquisition times out, fail fast and retry safely instead of stalling production requests.
+
+## 5. PostgreSQL Indexing & Row-Level Security (RLS) Gotchas
+- **Foreign Keys Are NOT Auto-Indexed:** PostgreSQL enforces FKs without creating indexes on child FK columns. Always add indexes on frequently joined/deleted FK columns (`CREATE INDEX CONCURRENTLY idx_order_items_order_id ON order_items(order_id);`) to avoid full table scans on parent `DELETE` or joins.
+- **Covering Indexes (`INCLUDE`):** If hot list queries read 2–3 extra columns after filtering, `CREATE INDEX ... ON orders (user_id, created_at DESC) INCLUDE (status, total_minor);` enables index-only scans without bloating sort keys.
+- **RLS Policy Performance:** Wrap `auth.uid()` / `current_setting(...)` inside a scalar subselect (`USING (user_id = (SELECT auth.uid()))`) so Postgres caches it per statement instead of calling it per row.

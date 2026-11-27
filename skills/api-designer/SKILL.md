@@ -25,7 +25,8 @@ Design predictable, evolvable API contracts that frontend/mobile clients and bac
    - Check existing routes, OpenAPI/Swagger specs, GraphQL SDL, error shapes, auth headers, and naming conventions (`camelCase` vs `snake_case`) so new endpoints match seamlessly.
 2. **Model Resources & Operations**:
    - **REST:** Plural nouns (`/v1/orders`, `/v1/orders/{orderId}/items`), proper HTTP semantics (`GET` safe, `PUT` idempotent replace, `PATCH` partial update, `POST` create/action, `DELETE` remove), accurate status codes (`200`, `201` + `Location`, `204`, `400`, `401`, `403`, `404`, `409`, `422`, `429`).
-   - **GraphQL:** Domain-oriented types, Relay/connection pagination or explicit `PageInfo`, input object types per mutation, explicit union/payload error types where clients need structured business errors.
+   - **GraphQL:** Domain-oriented types, Relay/connection pagination or explicit `PageInfo`, input object types per mutation, explicit union/payload error types, **DataLoader batching** to prevent N+1 resolver loops, and query depth/complexity caps.
+   - **Webhooks & Async Events:** Explicit versioned event envelope (`id`, `type`, `occurredAt`, `data`), HMAC-SHA256 signature + timestamp header for replay protection, and exponential retry + idempotent consumer semantics.
 3. **Standardize Cross-Cutting Contracts**:
    - **Pagination:** Keyset/cursor pagination (`cursor`, `limit`) for large/live feeds; offset (`page`, `pageSize`) only when bounded/small. Always cap `limit` (e.g., max 100).
    - **Filtering & Sorting:** Explicit allowlisted query params (`?status=paid&sort=-createdAt`) — never expose raw SQL/ORM filter objects directly.

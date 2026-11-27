@@ -1,6 +1,6 @@
 ---
 name: architecture-decision
-description: Write a clear Architecture Decision Record (ADR) comparing viable technical options, trade-offs, operational costs, security impact, and reversibility before committing to major architectural or stack changes. Use when choosing technologies, patterns, databases, or system boundaries ("viết ADR", "so sánh kiến trúc", "chọn công nghệ", "trade-offs").
+description: Use whenever choosing between technologies, databases, queues, auth patterns, or system boundaries ("A vs B", "should we use", "migrate from X to Y", "viết ADR", "so sánh kiến trúc", "trade-offs"). Produces an objective Architecture Decision Record with constraints, real options including status quo, ops cost, and exit triggers.
 license: MIT
 compatibility: opencode
 metadata:
@@ -28,8 +28,9 @@ Document important technical decisions rigorously so teams understand *why* a ch
 2. **Frame the Decision Problem**:
    - State the single architectural question being answered and the forcing factors (constraints that rule options in or out).
 3. **Evaluate 2-4 Genuine Options (Including Status Quo)**:
+   - Always include **"Keep / Evolve Current Setup (Status Quo)"** as a baseline option unless clearly impossible — never assume a shiny new tool beats extending existing infra.
    - Compare real viable alternatives fairly — never construct strawman options just to justify a preset preference.
-   - Analyze each across concrete criteria: Complexity, Performance/Scale, Failure Modes, Cost/Ops burden, Reversibility.
+   - Analyze each across concrete criteria: Complexity, Performance/Scale fit, Failure Blast Radius, Cost/Ops & On-Call burden, Lock-in / Reversibility.
 4. **Make & Justify the Decision**:
    - State the chosen option clearly, tying the choice directly to the project's primary drivers.
 5. **Document Consequences & Exit Strategy**:

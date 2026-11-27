@@ -4,6 +4,13 @@ All notable changes to **DevKit OpenCode (`devkit-opencode`)** are documented in
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Changed
+- **Hardened Skill Discipline & Industry Alignment:** Added `Red Flags & Rationalizations to Reject` tables to `grill-me`, `project-planner`, `tdd-workflow`, `incremental-implementation`, `systematic-debugging`, and `verification-before-done`; added multi-component boundary tracing and a 3-failure architectural stop to `systematic-debugging`; sharpened imperative trigger descriptions across skills.
+- **Deeper Engineering Checklists:** Added context-expansion & false-positive gates (`code-review`), data-flow taint tracing & AI/LLM app security checks (`security-review`), impact-tiered optimization (`performance-review`), pre-code UI design plan & React state pitfalls (`frontend-component`), FK index & RLS subselect rules (`database-schema`), webhook/DataLoader contracts (`api-designer`), pre-commit secret scans (`git-commit`), and constraint-to-complexity tables (`leetcode-helper`).
+- **Expanded References & Validation:** Added [a11y-and-ui-checklist.md](skills/frontend-component/references/a11y-and-ui-checklist.md) and [multi-stack-dockerfiles.md](skills/docker-setup/references/multi-stack-dockerfiles.md); upgraded [scripts/validate.py](scripts/validate.py) to verify command-to-skill references and the 500-line skill budget; added [tests/test_validate.py](tests/test_validate.py) and cross-OS (`ubuntu-latest` + `windows-latest`) CI validation.
+
 ## [1.0.0] - 2026-11-25
 
 ### Added

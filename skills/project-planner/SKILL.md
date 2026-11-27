@@ -1,6 +1,6 @@
 ---
 name: project-planner
-description: Break down an approved spec, feature, or refactor into an ordered, actionable engineering plan with small tasks, file targets, dependencies, risks, and an explicit verification step for every task. Use when planning implementation steps ("lập kế hoạch", "chia task", "break down tasks", "implementation plan").
+description: Use whenever breaking down an approved spec, feature, or multi-file refactor into an ordered engineering plan ("implementation plan", "break down tasks", "roadmap", "lập kế hoạch", "chia task"). Produces dependency-ordered vertical slices with exact file targets, parallelizable tracks, risks, and per-task verification commands.
 license: MIT
 compatibility: opencode
 metadata:
@@ -44,6 +44,14 @@ Turn a clear goal or specification into an executable, dependency-ordered plan w
 - **DO NOT** reference unverified file paths or npm/pytest scripts that do not exist in the repo.
 - **DO NOT** create mega-tasks touching 15 files with no intermediate checkpoint.
 - **DO NOT** start coding while presenting a plan unless the user explicitly instructed you to plan and execute immediately.
+
+## Red Flags & Rationalizations to Reject
+
+| Excuse / Temptation | Required Action |
+|---|---|
+| *"Task 1-4 implement code, Task 5 writes all tests."* | **STOP.** Attach test + verification directly to every task so bugs never compound across steps. |
+| *"Just say 'verify it works' for the Verify step."* | **STOP.** Name the exact executable command (`npm test -- foo`, `pytest -k bar`, `curl` check) and expected assertion. |
+| *"Everything must be sequential."* | **STOP.** Explicitly mark independent tracks (`Depends on: None`) that can execute in parallel safely. |
 
 ## Output Template
 
